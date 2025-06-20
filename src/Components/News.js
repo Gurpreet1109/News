@@ -54,7 +54,15 @@ const News = (props) => {
       </h2>
       {loading && <Spinner />}
       <InfiniteScroll
-        dataLength={articles.length}
+        dataLength={
+          articles && articles.length > 0 ? (
+            articles.map((article) => (
+              <NewsItem key={article.url} {...article} />
+            ))
+          ) : (
+            <p>Loading or no news found.</p>
+          )
+        }
         next={fetchMoreData}
         hasMore={articles.length !== totalResults}
         loader={<Spinner />}
@@ -76,7 +84,6 @@ const News = (props) => {
                     author={element.author}
                     date={element.publishedAt}
                     source={element.source?.name || "Unknown"}
-
                   />
                 </div>
               );
